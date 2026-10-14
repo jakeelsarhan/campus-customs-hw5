@@ -1,0 +1,2 @@
+mcp>=1.2.0,<2
+# Keep FastMCP (mcp 1.x). Do not let mcp 2.x replace this pin.

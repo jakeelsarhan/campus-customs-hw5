@@ -1,0 +1,56 @@
+{
+  "mcp_config": ".mcp.json (also m.mcp.json and .cursor/mcp.json)",
+  "server": "campus-customs",
+  "tools_listed": [
+    "get_lease_details",
+    "get_sku_pricing",
+    "get_stock_by_sku_size"
+  ],
+  "tests": [
+    {
+      "prompt": "Call get_stock_by_sku_size for SKU CC-TEE-WHITE size S (ticket 101).",
+      "tool": "get_stock_by_sku_size",
+      "arguments": {
+        "sku": "CC-TEE-WHITE",
+        "size": "S"
+      },
+      "output": {
+        "found": true,
+        "sku": "CC-TEE-WHITE",
+        "name": "Classic Bulldog Tee",
+        "size": "S",
+        "qty": 0,
+        "location": "Aisle B"
+      }
+    },
+    {
+      "prompt": "Call get_lease_details for lease_id 1 (ticket 102).",
+      "tool": "get_lease_details",
+      "arguments": {
+        "lease_id": 1
+      },
+      "output": {
+        "found": true,
+        "id": 1,
+        "space_name": "Chapel Street shop",
+        "landlord": "Elm City Properties",
+        "monthly_rent": 2400.0,
+        "next_due": "2026-09-02",
+        "notes": null
+      }
+    },
+    {
+      "prompt": "Call get_sku_pricing for SKU CC-HOOD-NAVY (ticket 103).",
+      "tool": "get_sku_pricing",
+      "arguments": {
+        "sku": "CC-HOOD-NAVY"
+      },
+      "output": {
+        "found": true,
+        "sku": "CC-HOOD-NAVY",
+        "unit_cost": 22.0,
+        "list_price": 58.0
+      }
+    }
+  ]
+}

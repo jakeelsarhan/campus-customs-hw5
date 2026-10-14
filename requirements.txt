@@ -1,0 +1,4 @@
+# Backend + MCP (install into HW 5 .venv)
+-r backend/requirements.txt
+-r mcp_server/requirements.txt
+python-dotenv

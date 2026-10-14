@@ -1,0 +1,26 @@
+# Secrets — never commit real keys
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# OS / editor
+.DS_Store
+.cursor/
+*.swp
+
+# Local MCP duplicate name (canonical is .mcp.json)
+# keep m.mcp.json if present; graders use .mcp.json
+
+# Large optional zip (DBs are committed under data/)
+data.zip

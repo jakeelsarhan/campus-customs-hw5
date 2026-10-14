@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Campus Customs — Resolved board screenshots</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Figtree", "Avenir Next", system-ui, sans-serif;
+      background: #eef2f6;
+      color: #0f2a3d;
+    }
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 0.5rem;
+    }
+    h1 { margin: 0 0 0.35rem; font-family: Georgia, serif; }
+    p { color: #4a5c6a; max-width: 40rem; }
+    .shot {
+      max-width: 1100px;
+      margin: 1rem auto 2rem;
+      padding: 0 1.25rem;
+    }
+    .shot h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+    }
+    .shot img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #d5dde6;
+      border-radius: 12px;
+      box-shadow: 0 12px 36px rgba(15, 42, 61, 0.12);
+      background: #fff;
+    }
+    .meta {
+      font-size: 0.9rem;
+      color: #4a5c6a;
+      margin: 0.4rem 0 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Resolved board — screenshots</h1>
+    <p>
+      React ops desk after the full resolve run. All three tickets show
+      <strong>resolved</strong>; checking balance is <strong>$160.00</strong>
+      (matches <code>cash_accounts</code> after rent $2,400 + invoice $840).
+    </p>
+  </header>
+
+  <section class="shot">
+    <h2>Ticket 101 — Bulldog tee (resolved)</h2>
+    <p class="meta">Selected on the rail · invoice 501 path · ending cash $160</p>
+    <img src="screenshots/ticket-101-resolved.png" alt="React board with ticket 101 resolved" />
+  </section>
+
+  <section class="shot">
+    <h2>Ticket 102 — Rent due (resolved)</h2>
+    <p class="meta">Selected on the rail · rent lease 1 · approve form shows rent $2,400</p>
+    <img src="screenshots/ticket-102-resolved.png" alt="React board with ticket 102 resolved" />
+  </section>
+
+  <section class="shot">
+    <h2>Ticket 103 — Bulk hoodie discount (resolved)</h2>
+    <p class="meta">Selected on the rail · price override · no cash change</p>
+    <img src="screenshots/ticket-103-resolved.png" alt="React board with ticket 103 resolved" />
+  </section>
+</body>
+</html>

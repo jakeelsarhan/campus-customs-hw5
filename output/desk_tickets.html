@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Campus Customs — Desk Tickets</title>
+  <style>
+    :root {
+      --ink: #1a2332;
+      --muted: #5c6b7a;
+      --line: #d5dde6;
+      --panel: #f7f9fb;
+      --accent: #0b3d5c;
+      --chip: #e8eef3;
+      --ok-bg: #eef6f0;
+      --wait-bg: #fff8e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #eef2f6 0%, #f8fafc 40%, #ffffff 100%);
+      min-height: 100vh;
+    }
+    header {
+      padding: 1.75rem 1.5rem 1rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    header h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.65rem;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+    }
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 40rem;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .tabs button {
+      appearance: none;
+      border: 1px solid transparent;
+      border-bottom: none;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.95rem;
+      padding: 0.65rem 0.9rem;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+    }
+    .tabs button[aria-selected="true"] {
+      background: #fff;
+      color: var(--accent);
+      border-color: var(--line);
+      font-weight: 600;
+      box-shadow: 0 -1px 0 #fff;
+      margin-bottom: -1px;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem 3rem;
+    }
+    .panel {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 0 12px 12px 12px;
+      padding: 1.25rem 1.35rem 1.5rem;
+    }
+    .panel.active { display: block; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0 0 1rem;
+    }
+    .chip {
+      background: var(--chip);
+      color: var(--accent);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 0.78rem;
+      padding: 0.28rem 0.55rem;
+      border-radius: 999px;
+    }
+    h2 {
+      margin: 0 0 0.4rem;
+      font-size: 1.25rem;
+      color: var(--accent);
+    }
+    h3 {
+      margin: 1.25rem 0 0.5rem;
+      font-size: 1.02rem;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.9rem 1rem 1rem;
+      margin-top: 0.75rem;
+    }
+    .section.actual {
+      min-height: 8rem;
+      background: #fff;
+      border-style: dashed;
+    }
+    .section p, .section li {
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+    .section p { margin: 0 0 0.65rem; }
+    .section ul { margin: 0.25rem 0 0.65rem 1.15rem; padding: 0; }
+    .section li { margin: 0.25rem 0; }
+    .section .label {
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .tools {
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 0.86rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.65rem 0.8rem;
+      margin: 0.35rem 0 0;
+    }
+    .tools code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.82rem;
+      color: #16324a;
+    }
+    .placeholder {
+      color: var(--muted);
+      font-style: italic;
+      margin: 0;
+    }
+    .later {
+      padding: 2rem 1rem;
+      text-align: center;
+      color: var(--muted);
+    }
+    .later strong {
+      display: block;
+      color: var(--accent);
+      font-style: normal;
+      margin-bottom: 0.35rem;
+    }
+    .reflect h2 {
+      margin-top: 0;
+    }
+    .reflect h3 {
+      margin-top: 1.4rem;
+    }
+    .reflect .section h4 {
+      margin: 0.85rem 0 0.35rem;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 0.92rem;
+      color: var(--accent);
+    }
+    .reflect .section p,
+    .reflect .section li {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Campus Customs — desk tickets</h1>
+    <p>
+      Pre-run plan for the three open tickets. Expected paths are lean on purpose:
+      Boss does not ping every specialist on every ticket. Actual columns stay empty until the agents run.
+    </p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Desk views">
+    <button role="tab" id="tab-101" aria-controls="panel-101" aria-selected="true">Ticket 101</button>
+    <button role="tab" id="tab-102" aria-controls="panel-102" aria-selected="false">Ticket 102</button>
+    <button role="tab" id="tab-103" aria-controls="panel-103" aria-selected="false">Ticket 103</button>
+    <button role="tab" id="tab-cash" aria-controls="panel-cash" aria-selected="false">Cash</button>
+    <button role="tab" id="tab-reflection" aria-controls="panel-reflection" aria-selected="false">Reflection</button>
+  </div>
+
+  <main>
+    <!-- Ticket 101 -->
+    <section class="panel active" role="tabpanel" id="panel-101" aria-labelledby="tab-101">
+      <h2>101 — Customer order (Bulldog tee)</h2>
+      <div class="meta">
+        <span class="chip">customer_order</span>
+        <span class="chip">Tauhid Zaman</span>
+        <span class="chip">CC-TEE-WHITE · S · qty 1</span>
+        <span class="chip">invoice_id 501</span>
+      </div>
+
+      <div class="section expected">
+        <h3>Expected</h3>
+
+        <p class="label">Boss calls first</p>
+        <p>
+          <strong>Inventory.</strong> This is a size-specific order. Before anyone talks money or drafts a reply,
+          we need the real on-hand count for <code>CC-TEE-WHITE</code> / <code>S</code>. If stock covers it, the path is short;
+          if not, Inventory owns the shortfall and vendor question.
+        </p>
+
+        <p class="label">Delegations we expect (lean)</p>
+        <ul>
+          <li><strong>Boss → Inventory:</strong> “Can we fill ticket 101 from stock? If not, who would reprint and can they ship?”</li>
+          <li><strong>Inventory → Accounting</strong> (the one specialist handoff): stock is zero and the natural apparel vendor is tied to open invoice <code>501</code>. Inventory should not invent a restock — it should ask Accounting to confirm that unpaid invoice and prepare payment for human approval. Facilities stays out. Customer Service waits until Boss has a clear blocker/status to word.</li>
+          <li><strong>Back to Boss:</strong> decide ticket stays <em>waiting_approval</em> (pay invoice first) or <em>blocked</em>; optional later Boss → Customer Service for a board draft once the money hold is stated. No payment executes without a human <code>approved_by</code>.</li>
+        </ul>
+
+        <p class="label">MCP tools we expect</p>
+        <div class="tools">
+          Boss/shared reads: <code>get_ticket</code>, <code>get_shop_today</code><br />
+          Inventory: <code>get_stock_by_sku_size</code>, <code>get_invoice</code> or <code>vendor_can_accept_order</code> / <code>list_open_invoices_for_vendor</code>, maybe <code>get_vendor</code><br />
+          Accounting: <code>get_cash_balance</code>, <code>prepare_payment_request</code> (kind=invoice, ref 501, amount 840)<br />
+          Board: <code>update_ticket_status</code> → <code>waiting_approval</code>; optional <code>append_ticket_notes</code> for the customer draft<br />
+          <em>Not expected this turn:</em> <code>execute_approved_payment</code> (no human approver yet), <code>record_restock_plan</code> (vendor still blocked), lease tools.
+        </div>
+      </div>
+
+      <div class="section actual">
+        <h3>Actual</h3>
+        <p class="label">Agents that worked</p>
+        <p>Boss, Inventory, Accounting, Customer Service. Facilities stayed out (matches the lean plan).</p>
+        <p class="label">Delegations observed</p>
+        <ul>
+          <li><strong>Boss → Inventory:</strong> stock for CC-TEE-WHITE / S; vendor block vs invoice 501.</li>
+          <li><strong>Boss → Accounting:</strong> prepare invoice 501 payment only ($840); do not execute.</li>
+          <li><strong>Boss → Customer Service:</strong> board draft to Tauhid (no email) while payment waited, then again after restock plan.</li>
+          <li>After human Jake approved invoice 501: <strong>Boss → Inventory</strong> recorded restock plan qty 1 with vendor 1; ticket marked <em>resolved</em>.</li>
+        </ul>
+        <p class="label">MCP tools used</p>
+        <div class="tools">
+          <code>get_ticket</code>, <code>get_shop_today</code>, <code>get_stock_by_sku_size</code>, <code>list_vendors</code>,
+          <code>vendor_can_accept_order</code>, <code>get_vendor</code>, <code>get_invoice</code>, <code>get_cash_balance</code>,
+          <code>prepare_payment_request</code>, <code>append_ticket_notes</code>, <code>update_ticket_status</code>,
+          <code>list_open_tickets</code>, <code>list_open_invoices_for_vendor</code>, <code>record_restock_plan</code>
+          (+ human <code>execute_approved_payment</code> for invoice 501 outside the agent prepare step).
+        </div>
+        <p><strong>Outcome:</strong> resolved. Invoice 501 paid; restock plan on board; customer draft saved. Cash −$840 on this ticket.</p>
+      </div>
+
+    </section>
+
+    <!-- Ticket 102 -->
+    <section class="panel" role="tabpanel" id="panel-102" aria-labelledby="tab-102" hidden>
+      <h2>102 — Rent notice</h2>
+      <div class="meta">
+        <span class="chip">rent_notice</span>
+        <span class="chip">Elm City Properties</span>
+        <span class="chip">lease_id 1</span>
+        <span class="chip">due 2026-09-02</span>
+      </div>
+
+      <div class="section expected">
+        <h3>Expected</h3>
+
+        <p class="label">Boss calls first</p>
+        <p>
+          <strong>Facilities.</strong> The ticket is a landlord rent notice keyed to <code>lease_id = 1</code>.
+          Space facts (landlord, monthly rent, next due) should come from the lease row, not from guessing
+          the email wording. Inventory and discount work do not belong here.
+        </p>
+
+        <p class="label">Delegations we expect (lean)</p>
+        <ul>
+          <li><strong>Boss → Facilities:</strong> “Load lease 1 against shop today — how much, when due, overdue or not?”</li>
+          <li><strong>Facilities → Accounting</strong> (the one specialist handoff): once rent is confirmed ($2,400, due 2026-09-02 vs desk 2026-08-31), Facilities asks Accounting to check cash and <code>prepare_payment_request</code> for human approval. No Inventory. No Customer Service unless Boss later wants a landlord draft on the board (still no real email).</li>
+          <li><strong>Back to Boss:</strong> leave ticket <em>waiting_approval</em> for rent pay; do not execute payment without a human approver. Note cash after this pay still matters for ticket 101’s invoice.</li>
+        </ul>
+
+        <p class="label">MCP tools we expect</p>
+        <div class="tools">
+          Boss/shared: <code>get_ticket</code>, <code>get_shop_today</code><br />
+          Facilities: <code>get_lease_details</code><br />
+          Accounting: <code>get_cash_balance</code>, <code>prepare_payment_request</code> (kind=rent, ref 1, amount 2400)<br />
+          Board: <code>update_ticket_status</code> → <code>waiting_approval</code>; optional <code>append_ticket_notes</code><br />
+          <em>Not expected:</em> inventory/pricing/vendor tools, <code>execute_approved_payment</code> without a human.
+        </div>
+      </div>
+
+      <div class="section actual">
+        <h3>Actual</h3>
+        <p class="label">Agents that worked</p>
+        <p>Boss, Facilities, Accounting, Customer Service. Inventory stayed out (matches the lean plan).</p>
+        <p class="label">Delegations observed</p>
+        <ul>
+          <li><strong>Boss → Facilities:</strong> lease 1 facts vs shop today (rent $2,400, due 2026-09-02).</li>
+          <li><strong>Boss → Accounting:</strong> prepare rent payment only; confirm cash; do not execute.</li>
+          <li>Human Jake approved rent $2,400 → checking $3,400 → $1,000.</li>
+          <li><strong>Boss → Customer Service:</strong> landlord board draft (no email). Ticket marked <em>resolved</em>.</li>
+        </ul>
+        <p class="label">MCP tools used</p>
+        <div class="tools">
+          <code>get_ticket</code>, <code>get_shop_today</code>, <code>get_lease_details</code>, <code>get_cash_balance</code>,
+          <code>prepare_payment_request</code>, <code>append_ticket_notes</code>, <code>update_ticket_status</code>,
+          <code>list_open_tickets</code>
+          (+ human <code>execute_approved_payment</code> kind=rent, ref 1, amount 2400).
+        </div>
+        <p><strong>Outcome:</strong> resolved. Rent paid with human approval. Cash −$2,400 on this ticket.</p>
+      </div>
+
+    </section>
+
+    <!-- Ticket 103 -->
+    <section class="panel" role="tabpanel" id="panel-103" aria-labelledby="tab-103" hidden>
+      <h2>103 — Bulk hoodie discount</h2>
+      <div class="meta">
+        <span class="chip">price_override</span>
+        <span class="chip">Yale AI Club</span>
+        <span class="chip">CC-HOOD-NAVY · M · qty 20</span>
+      </div>
+
+      <div class="section expected">
+        <h3>Expected</h3>
+
+        <p class="label">Boss calls first</p>
+        <p>
+          <strong>Inventory.</strong> The club wants 20 size-M hoodies. Before Accounting argues margin or Boss
+          grants a discount, we need the real on-hand count — seed data has only 8 in M, so fulfillment and
+          discount are coupled to a shortfall. Facilities/rent is irrelevant on this ticket.
+        </p>
+
+        <p class="label">Delegations we expect (lean)</p>
+        <ul>
+          <li><strong>Boss → Inventory:</strong> “How many <code>CC-HOOD-NAVY</code> M do we have vs 20? Is a restock even allowed right now?”</li>
+          <li><strong>Inventory → Accounting</strong> (the one specialist handoff): Inventory reports the shortfall (and that Bulldog Print Co is likely still blocked if invoice 501 is open) and asks Accounting for list/cost margin so Boss can decide the discount. Accounting should <em>not</em> quietly approve a price — recommendation only.</li>
+          <li><strong>Back to Boss:</strong> approve, deny, or counter the discount given margin + partial stock; set ticket status. Optional Boss → Customer Service afterward for a board draft to the club. Restock plan only if vendor is clear — otherwise note the supply hold without pretending goods were ordered.</li>
+        </ul>
+
+        <p class="label">MCP tools we expect</p>
+        <div class="tools">
+          Boss/shared: <code>get_ticket</code>, <code>get_shop_today</code><br />
+          Inventory: <code>get_stock_by_sku_size</code>, <code>vendor_can_accept_order</code> or <code>list_open_invoices_for_vendor</code> (if restock is considered)<br />
+          Accounting: <code>get_sku_pricing</code> (unit_cost / list_price for margin)<br />
+          Board: <code>append_ticket_notes</code> (Boss decision + optional CS draft), <code>update_ticket_status</code> as appropriate<br />
+          <em>Not expected this turn:</em> rent/lease tools, <code>execute_approved_payment</code> (this ticket is a price call, not a pay run), <code>record_restock_plan</code> while vendor 1 is still unpaid.
+        </div>
+      </div>
+
+      <div class="section actual">
+        <h3>Actual</h3>
+        <p class="label">Agents that worked</p>
+        <p>Boss, Inventory, Accounting, Customer Service. Facilities stayed out.</p>
+        <p class="label">Delegations observed</p>
+        <ul>
+          <li><strong>Boss → Inventory:</strong> stock CC-HOOD-NAVY / M vs qty 20 (8 on hand, short 12).</li>
+          <li><strong>Inventory → Accounting:</strong> margin at list $58 and at 10% off ($52.20).</li>
+          <li><strong>Boss → Customer Service:</strong> board draft denying deep discount; offer ≤10% on the 8 units available.</li>
+          <li>Customer Service also checked back with Boss on the discount decision (peer handoff).</li>
+        </ul>
+        <p class="label">MCP tools used</p>
+        <div class="tools">
+          <code>get_ticket</code>, <code>get_shop_today</code>, <code>get_stock_by_sku_size</code>,
+          <code>get_sku_pricing</code>, <code>update_ticket_status</code>, <code>append_ticket_notes</code>.
+          No payment tools — cash unchanged.
+        </div>
+        <p><strong>Outcome:</strong> resolved. Deep bulk discount denied; 10% offer on available 8 units. Cash Δ $0.</p>
+      </div>
+
+    </section>
+
+    <!-- Cash (later) -->
+    <section class="panel" role="tabpanel" id="panel-cash" aria-labelledby="tab-cash" hidden>
+      <h2>Cash ledger (this resolve run)</h2>
+      <div class="section expected">
+        <h3>Money itemized</h3>
+        <ul>
+          <li><strong>Starting checking</strong> (after reset): <code>$3,400.00</code> on shop date 2026-08-31.</li>
+          <li><strong>Ticket 102 — Rent:</strong> human-approved pay <code>kind=rent</code>, lease <code>ref_id=1</code>, <strong>$2,400.00</strong>.
+            Balance <code>$3,400 → $1,000</code>. Why: monthly rent to Elm City Properties.</li>
+          <li><strong>Ticket 101 — Vendor invoice:</strong> human-approved pay <code>kind=invoice</code>, <code>ref_id=501</code>, <strong>$840.00</strong>.
+            Balance <code>$1,000 → $160</code>. Why: clear Bulldog Print Co unpaid rush reprint so restock can proceed.</li>
+          <li><strong>Ticket 103 — Price override:</strong> <strong>$0.00</strong> cash movement (discount decision only). Balance stayed <code>$160</code>.</li>
+          <li><strong>Ending checking:</strong> <code>$160.00</code> — matches <code>cash_accounts</code> in <code>data/campus_customs_new.db</code>
+            (<code>3400 − 2400 − 840 = 160</code>). Payments table has rent id=1 and invoice id=2, both approved by Jake (human desk).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reflection -->
+    <section class="panel reflect" role="tabpanel" id="panel-reflection" aria-labelledby="tab-reflection" hidden>
+      <h2>Reflection — after resolving 101, 102, and 103</h2>
+      <p style="margin:0 0 1rem;color:var(--muted);">
+        Written against this same page: Expected vs Actual on each ticket tab, and the Cash tab
+        ($3,400 → $1,000 → $160). Human approver on both pays: <strong>Jake (human desk)</strong>.
+      </p>
+
+      <div class="section">
+        <h3>1. Human approvals (who actually moved cash)</h3>
+        <p>
+          Agents never silently paid. On <strong>102</strong>, Accounting only
+          <code>prepare_payment_request</code>’d rent for lease 1 at <strong>$2,400</strong>; Jake approved and
+          <code>execute_approved_payment</code> dropped checking <strong>$3,400 → $1,000</strong> (Cash tab).
+          On <strong>101</strong>, Accounting prepared invoice <strong>501 / $840</strong>; Jake approved after rent,
+          so checking went <strong>$1,000 → $160</strong>. On <strong>103</strong> there was
+          <em>no</em> human pay — Boss’s discount call and a Customer Service draft — cash stayed
+          <strong>$160</strong>. That split is the whole point of the desk: prepare in the agent lanes,
+          cash-out only through the human approve control.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>2. How I’d grade the agents on each ticket</h3>
+
+        <h4>Ticket 101 — Bulldog tee (Tauhid / CC-TEE-WHITE S)</h4>
+        <p>
+          <strong>Strong.</strong> Inventory told the truth: qty <strong>0</strong> for size S, so we never pretended
+          we could pull a tee off Aisle B. The team correctly treated invoice <strong>501</strong> as the
+          restock gate (Bulldog Print Co won’t ship with an open unpaid bill), left cash alone until Jake
+          approved, then <code>record_restock_plan</code> only after the vendor cleared, and parked a draft
+          for Tauhid on the board instead of emailing him. I’d dock a little for Boss talking to Customer
+          Service <em>and</em> Accounting directly instead of the single Inventory→Accounting handoff we sketched —
+          more chatter than needed — but the money and stock outcomes were right, and Facilities stayed out
+          like it should on a tee order.
+        </p>
+
+        <h4>Ticket 102 — Rent due (Elm City / lease 1)</h4>
+        <p>
+          <strong>Strong on facts, messy on the second pass.</strong> Facilities nailed the lease against
+          <code>desk.date_today</code>: <strong>$2,400</strong>, due <strong>2026-09-02</strong>, not overdue on
+          2026-08-31. Accounting prepared rent without inventing an amount. Human pay worked — that’s the
+          Cash tab’s first line. Inventory correctly never showed up. The awkward bit was after Jake’s pay:
+          a follow-up turn briefly got confused about whether rent had cleared (agents tried to re-read cash
+          and narrate a shortfall story even though payment id 1 already succeeded). We still ended
+          <em>resolved</em> with the landlord draft on the ticket. Grade: A for the prepare→approve path,
+          B− for post-pay narration noise.
+        </p>
+
+        <h4>Ticket 103 — Bulk hoodie discount (Yale AI Club / CC-HOOD-NAVY M × 20)</h4>
+        <p>
+          <strong>Best “judgment” ticket.</strong> Inventory’s 8-vs-20 shortfall is the whole plot; Accounting
+          actually did the margin math at list <strong>$58</strong> / cost <strong>$22</strong> and at 10% off
+          (<strong>$52.20</strong>, ~57.9% margin). Boss denied a deep bulk cut and offered at most 10% on the
+          <em>eight</em> units in stock — which is a real shop answer, not “sure, discount twenty ghosts.”
+          Customer Service’s draft stayed on the board. Cash Δ <strong>$0</strong> on the Cash tab, which is
+          correct: this wasn’t a pay ticket. Slight over-delegation (CS pinging Boss back; Boss re-asking
+          Inventory) but the decision quality was high.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>3. Actual vs Expected (delegation), ticket by ticket</h3>
+
+        <h4>101</h4>
+        <p>
+          <strong>Expected:</strong> Boss→Inventory first, then one specialist handoff Inventory→Accounting;
+          CS optional after the blocker was clear; no Facilities; no <code>execute_approved_payment</code>
+          without a human; no <code>record_restock_plan</code> while 501 was open.
+          <strong>Actual:</strong> Boss did call Inventory first and kept Facilities out — good. The specialist
+          handoff was looser than planned: Boss→Accounting directly (instead of Inventory asking Accounting),
+          and Boss→CS earlier than we sketched. After Jake paid 501, Actual correctly did the restock plan
+          we had parked as “not this turn” in Expected. So: same spine, noisier wiring, fuller close-out
+          once cash cleared.
+        </p>
+
+        <h4>102</h4>
+        <p>
+          <strong>Expected:</strong> Boss→Facilities, Facilities→Accounting, waiting_approval, Inventory absent.
+          <strong>Actual:</strong> Boss→Facilities and Boss→Accounting (Boss as hub again, not Facilities asking
+          Accounting). Inventory absent — match. Human rent pay and cash path match the Cash tab exactly.
+          CS draft happened (Expected called it optional). The post-approve confusion was <em>not</em> in the
+          Expected plan; that’s the main Actual miss on polish, not on money.
+        </p>
+
+        <h4>103</h4>
+        <p>
+          <strong>Expected:</strong> Boss→Inventory, Inventory→Accounting for margin, Boss decides, optional CS;
+          no lease tools; no pay; restock only if vendor clear.
+          <strong>Actual:</strong> Closest match of the three. We got the Inventory→Accounting margin handoff
+          on purpose, Facilities never appeared, no payment tools, cash unchanged. We didn’t lean on
+          <code>vendor_can_accept_order</code> for a reprint because Boss chose a partial-stock discount offer
+          instead of promising twenty reprints — a reasonable Actual choice given only 8 M on the rack.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>4. What would’ve been simpler as one agent with tools</h3>
+        <p>
+          <strong>Ticket 102 is the poster child for one agent.</strong> The path is almost a script:
+          <code>get_ticket</code> → <code>get_lease_details(1)</code> → <code>get_shop_today</code> →
+          <code>get_cash_balance</code> → <code>prepare_payment_request(rent, 1, 2400)</code> → wait for Jake →
+          maybe <code>append_ticket_notes</code>. Splitting Facilities vs Accounting added latency and a
+          second model call for a single lease row and one cash check. A solo “ops clerk” agent with the same
+          MCP tools would’ve hit the same Cash tab result with less drama.
+        </p>
+        <p>
+          <strong>101 is where the team earns its keep</strong> — stock truth, vendor credit hold, invoice pay,
+          then restock plan and a customer draft are different failure modes. One agent could still call the
+          tools in order, but the prompts’ separated scopes (Inventory never invents a pay; Accounting never
+          invents qty; CS never emails) are what kept Jake as the only person who could move the $840.
+          <strong>103</strong> is judgment-heavy; one agent with <code>get_stock_by_sku_size</code> +
+          <code>get_sku_pricing</code> could decide the 10% offer, but having Accounting forced to show margin
+          before Boss spoke made the Yale AI Club answer feel less like a vibes discount.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>5. Three new Campus Customs problems this team <em>could</em> solve with tools we already have</h3>
+        <ol>
+          <li>
+            <strong>Another size-stockout on an apparel SKU with a vendor already paid.</strong>
+            Same pattern as 101 after invoice 501 cleared: Inventory
+            <code>get_stock_by_sku_size</code> + <code>vendor_can_accept_order</code> +
+            <code>record_restock_plan</code>, CS drafts the shopper note. No new tables required.
+          </li>
+          <li>
+            <strong>Next month’s rent notice on lease 1.</strong>
+            Clone of 102: Facilities <code>get_lease_details</code>, Accounting
+            <code>prepare_payment_request</code>, human approve on the desk (Cash tab would show another
+            −$2,400 if checking can cover it — today we’d refuse if balance stayed at $160).
+          </li>
+          <li>
+            <strong>A second student-org bulk ask on a priced SKU (mug, hat, hoodie).</strong>
+            Same as 103: stock vs qty, <code>get_sku_pricing</code> margin, Boss approve/deny/counter,
+            CS board draft — cash stays put unless they also need a vendor reprint path like 101.
+          </li>
+        </ol>
+      </div>
+
+      <div class="section">
+        <h3>6. Three problems this team <em>cannot</em> solve yet — and what we’d add</h3>
+        <ol>
+          <li>
+            <strong>“Can we take a card deposit / recognize revenue when Tauhid picks up the tee?”</strong>
+            This homework is cash-<em>out</em> only (Cash tab never goes up). We’d need a
+            <code>record_sale</code> / <code>receive_payment</code> MCP tool writing a sales or deposits table,
+            an Accounting skill for inbound cash, and probably a POS/agent that knows order fulfillment
+            beyond <code>record_restock_plan</code> (which never bumps <code>inventory.qty</code> when goods arrive).
+          </li>
+          <li>
+            <strong>“Ship the restocked tee to Tauhid’s dorm and email tracking.”</strong>
+            CS is banned from real email; we have no carrier, address, or shipment table. We’d need a
+            Logistics agent, tools like <code>create_shipment</code> / <code>get_tracking</code>, and a
+            deliberate “send_message” channel that’s still sandbox-safe for class (or a mock mailer table).
+          </li>
+          <li>
+            <strong>“Negotiate a lease amendment or new Chapel Street square footage.”</strong>
+            Facilities can read lease 1’s rent and due date, but can’t model square footage, CAM charges,
+            or amendment versions. We’d need richer lease documents (or a docs tool), a Facilities prompt
+            for amendments, and probably Legal/Boss escalation that isn’t just
+            <code>update_ticket_status</code>.
+          </li>
+        </ol>
+      </div>
+
+      <div class="section">
+        <h3>7. Closing note from the desk</h3>
+        <p>
+          The multi-agent board paid off most on <strong>101</strong> (stock + vendor credit + human $840) and
+          <strong>103</strong> (margin before discount). <strong>102</strong> proved the human approve path on the
+          Cash tab more than it proved five specialists. Ending checking <strong>$160</strong> matching
+          <code>campus_customs_new.db</code> after rent and invoice is the non-negotiable grade — the React
+          “resolved” badges would be worthless if that math were wrong.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+
+    function select(tab) {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      panels.forEach((p) => {
+        const on = p.id === tab.getAttribute("aria-controls");
+        p.classList.toggle("active", on);
+        p.hidden = !on;
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => select(tab));
+    });
+  </script>
+</body>
+</html>
