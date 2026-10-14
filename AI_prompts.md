@@ -153,3 +153,17 @@ No follow-up prompt.
 > Problem 10, reflection. Open output/desk_tickets.html and fill the reflection tab. Answer in your own vibe and be detailed and thorough. How would you evaluate the performance of the agent on each ticket and why? For each ticket, how did actual compare to expected plan we wrote earlier? What would have been simpler as one agent with tools and why? Describe three new problems campus customs might face that this agent team could solve with the tools you built. Describe three new problems campus customs might face that this agent team could not solve with the tools we built and explain the tools and agents we would need to solve them. Tie every answer to this app and the three tickets we ran. Use the ticket tabs and cash tab on the same page as the evidence. generic AI essays without campus customs details will score low.
 
 No follow-up prompt.
+
+---
+
+## Problem 11: Submit to GitHub
+
+**Status:** done (2026-10-14 19:00). Public repo https://github.com/jakeelsarhan/campus-customs-hw5 — no real `.env`; both DBs under `data/`; URL in `output/github_url.txt`.
+
+### Prompt 1
+
+**Student (2026-10-14 18:59):**
+
+> Problem eleven, submit to GitHub, push code to a public GitHub repository so graders can clone it. do not push the real.env to GitHub repo. Do include both database files under data slash, the, both the original and the working copy, so graders can run the app easily. Submit the repo URL to canvas and also put it in output/GitHub_URL.text. Readme should explain, copy original DB to the working copy when we need a clean run, start MCP server, start fast API backend, start the React board, reset the DB before a full three ticket run.
+
+No follow-up prompt.

@@ -322,3 +322,4 @@ All three tickets `status=resolved` in the working DB. Invoice 501 `paid`. Two `
 | Safety + token limits | Problem 5 safety section |
 | Resolve cash math | Problem 9 section above |
 | Reflection | `output/desk_tickets.html` → Reflection tab (Problem 10) |
+| GitHub | `output/github_url.txt` → https://github.com/jakeelsarhan/campus-customs-hw5 |
